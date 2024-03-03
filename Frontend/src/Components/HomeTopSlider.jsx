@@ -1,42 +1,59 @@
-import React from 'react'
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-
+import React, { useState , useEffect } from 'react';
+import ItemsCarousel from 'react-items-carousel';
+ 
 const HomeTopSlider = () => {
-    const responsive = {
-        superLargeDesktop: {
-            // the naming can be any, depends on you.
-            breakpoint: { max: 4000, min: 3000 },
-            items: 5
-        },
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 4
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1
-        }
+  const [activeItemIndex, setActiveItemIndex] = useState(0);
+  const [numberOfCards, setNumberOfCards] = useState(3);
+  const numberOfItems = 5
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveItemIndex(prevIndex => (prevIndex + 1) % numberOfItems);
+    }, 3000); // Auto scroll interval in milliseconds
+
+    return () => clearInterval(interval); // Cleanup function to clear the interval on unmount
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Adjust the number of cards based on the viewport width
+      if (window.innerWidth >= 1200) {
+        setNumberOfCards(3);
+      } else if (window.innerWidth >= 768) {
+        setNumberOfCards(2);
+      } else {
+        setNumberOfCards(1);
+      }
     };
-    return (
-        <div className=''>
-            <Carousel
-                infinite={true}
-                autoPlaySpeed={3000}
-                autoPlay={true}
-                responsive={responsive}
-                removeArrowOnDeviceType={["desktop","tablet", "mobile"]}
-                className='overflow-hidden'
-                >
-                <div className='bg-[#7cfc00] px-5 py-4 rounded space-x-4 flex items-center'>
+
+    // Call handleResize initially and add event listener for window resize
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup function to remove event listener on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const chevronWidth = 10;
+  return (
+    <div style={{ padding: `0 ${chevronWidth}px` }}>
+      <ItemsCarousel
+        requestToChangeActive={setActiveItemIndex}
+        activeItemIndex={activeItemIndex}
+        numberOfCards={numberOfCards}
+        gutter={10}
+        infiniteLoop={true}
+        interval={3000}
+        // leftChevron={<button>{'<'}</button>}
+        // rightChevron={<button>{'>'}</button>}
+        outsideChevron
+        chevronWidth={chevronWidth}
+      >
+        <div className='bg-[#7cfc00] px-5 py-4 rounded space-x-4 flex items-center'>
                     <span className='text-2xl font-bold text-black'>
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGgZstTBwtt237yB1cTudAJ6d57mgMjv0qHM-kilSSMYNPIQuI" className='w-[70px] h-[70px] object-cover rounded-full' alt="" />
                     </span>
-                    <span className='text-lg font-semibold uppercase'>Quram Section</span>
+                    <span className='text-lg font-semibold uppercase'>Quran Section</span>
                 </div>
                 <div className='bg-[#7cfc00] px-5 py-4 rounded space-x-4 flex items-center'>
                     <span className='text-2xl font-bold text-black'>
@@ -74,11 +91,9 @@ const HomeTopSlider = () => {
                     </span>
                     <span className='text-lg font-semibold uppercase'>News Section</span>
                 </div>
-
-
-            </Carousel>;
-        </div>
-    )
-}
+      </ItemsCarousel>
+    </div>
+  );
+};
 
 export default HomeTopSlider

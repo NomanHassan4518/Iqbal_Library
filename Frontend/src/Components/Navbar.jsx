@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-// import logo from '../DATA/LOGO.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { BiSolidUpArrow } from "react-icons/bi";
@@ -44,7 +43,7 @@ const Navbar = () => {
     return (
         <>
             <div className="">
-                <div className=' border-b-2 border-red-600 shadow-lg'>
+                <div className=' border-b-2 border-red-600 shadow-lg fixed z-50 w-full bg-white'>
                     <div className='px-12 py-3  flex items-center justify-between '>
                         <div className='flex items-center space-x-10 '>
                             <Link to="/">
@@ -52,7 +51,8 @@ const Navbar = () => {
                             </Link>
 
                             <Link to="/" className='text-xl font-semibold'>Home</Link>
-                            <Link to="/" className='text-xl font-semibold'>All Books</Link>
+                            {/* <Link to="/" className='text-xl font-semibold'>All Books</Link> */}
+                            <Link to="/addbook" className='text-xl font-semibold'>AddBook</Link>
                             <Link to="/" className='text-xl font-semibold'>News</Link>
                             <Link to="/faq" className='text-xl font-semibold'>FAQ</Link>
                         </div>
@@ -64,10 +64,10 @@ const Navbar = () => {
                         <div className='flex items-center space-x-6'>
                             {
                                 auth ?
-                                    <Link to="/signup" className='text-xl font-semibold' onClick={handleLogout}>Logout</Link>
+                                    <Link to="/login" className='text-xl font-semibold' onClick={handleLogout}>Logout</Link>
                                     :
                                     <div className='flex items-center space-x-6'>
-                                        <Link to="" className='text-xl font-semibold'>Login</Link>
+                                        <Link to="/login" className='text-xl font-semibold'>Login</Link>
                                         <Link to="/signup" className='text-xl font-semibold'>SignUp</Link>
                                     </div>
                             }
@@ -82,7 +82,7 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                <div className="border-r-2 border-red-600 shadow-lg w-52 absolute left-0 py-4  ">
+                <div className="border-r-2 border-b-2 border-red-600 shadow-lg w-52 absolute left-0 pt-28 bg-white">
                     <div className='pb-6 border-b-2 border-green-600 px-3 space-y-7'>
                         <h1 className='text-2xl font-bold flex items-center space-x-3 '>
                             <span><BiSolidCategoryAlt /></span>
@@ -161,7 +161,7 @@ const Navbar = () => {
                             <span>User</span>
                         </h1>
 
-                        <div className="flex items-start flex-col space-y-4">
+                        <div className="flex items-start flex-col space-y-7 mb-5">
                             <input type="text" className='py-0.5 px-4 border border-blue-500 focus:outline-none w-full mt-4 rounded' placeholder='Enter Your Name' />
                             <input type="email" className='py-0.5 px-4 border border-blue-500 focus:outline-none w-full rounded' placeholder='Enter Your Email' />
                             <button className=' bg-blue-600 text-white font-semibold px-2 py-1 rounded w-20 hover:bg-purple-700'>Login</button>
@@ -169,6 +169,7 @@ const Navbar = () => {
 
                     </div>
                 </div>
+
             </div>
 
         </>
