@@ -29,12 +29,12 @@ app.post("/signup", async (req, res) => {
   res.send(result);
 });
 
-app.get("/login", async (req, resp) => {
-  let user = User.findOne(req.body)
+app.post("/login", async (req, resp) => {
+  let user = await User.findOne(req.body)
   console.log(req.body);
   resp.send(user)  
   }); 
-  
+   
   // Start the server
   const PORT = process.env.PORT || 5000; 
   app.listen(PORT, () => { 
